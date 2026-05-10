@@ -3,336 +3,404 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prospecta 4.0</title>
+<title>Prospecta 4.0 | Prospecção mineral com IA e geotecnologias</title>
+<meta name="description" content="Prospecta 4.0 é um projeto de pesquisa em geologia, inteligência artificial e geotecnologias para identificar áreas com potencial mineral no Brasil.">
+<meta name="keywords" content="Prospecta 4.0, prospecção mineral, geologia, inteligência artificial, geotecnologias, sensoriamento remoto, minerais estratégicos, minerais críticos">
+<meta name="author" content="Prospecta 4.0">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0f172a">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Prospecta 4.0 | Prospecção mineral com IA e geotecnologias">
+<meta property="og:description" content="Pesquisa aplicada em geologia, inteligência artificial e geotecnologias para ampliar a prospecção mineral no Brasil.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Prospecta 4.0 | Prospecção mineral com IA e geotecnologias">
+<meta name="twitter:description" content="Pesquisa aplicada em geologia, inteligência artificial e geotecnologias para ampliar a prospecção mineral no Brasil.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700;1,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700;1,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/index.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">
-    Prospecta <span class="nav-logo-pill">4.0</span>
+<header class="mobile-header">
+  <a href="#hero" class="mh-brand">PROSPECTA <span>4.0</span></a>
+  <a href="#contato" class="mh-cta">Acompanhe</a>
+</header>
+
+<nav class="sidenav">
+  <a href="#hero" class="snav-brand">
+    <span class="snav-initial">P</span>
+    <span class="snav-ver">4.0</span>
   </a>
-  <ul>
-    <li><a href="#sobre">Sobre</a></li>
-    <li><a href="#pilares">Tecnologia</a></li>
-    <li><a href="#projetos">Projetos</a></li>
-    <li><a href="#equipe">Equipe</a></li>
-    <li><a href="#contato">Contato</a></li>
+  <ul class="snav-list">
+    <li><a href="#sobre"      class="snav-link" data-tip="Sobre">S</a></li>
+    <li><a href="#dashboard"  class="snav-link" data-tip="Dashboard">D</a></li>
+    <li><a href="#equipe"     class="snav-link" data-tip="Equipe">E</a></li>
+    <li><a href="#rede"       class="snav-link" data-tip="Rede">R</a></li>
+    <li><a href="#contato"    class="snav-link" data-tip="Contato">C</a></li>
   </ul>
-  <a href="#contato" class="nav-cta">Fale Conosco</a>
+  <a href="#contato" class="snav-cta">→</a>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
-
-  <h1 class="hero-h1">
-    Modelagem exploratória de<br>
-    <em> minerais estratégicos</em>
-  </h1>
-
-  <p class="hero-sub">
-    Infraestrutura de pesquisa e desenvolvimento que une
-    geofísica, ciência de dados e inteligência computacional
-    para mapear o futuro mineral do Brasil.
-  </p>
-
-  <div class="hero-btns">
-    <a href="#pilares" class="btn-green">Conhecer o Projeto</a>
-    <a href="#projetos" class="btn-ghost">Ver Projetos</a>
-  </div>
-
-  <div class="hero-stats reveal">
-    <div class="hstat">
-      <div class="hstat-val"><span id="cnt">XX</span><em>+</em></div>
-      <div class="hstat-label">Modelos criados</div>
-    </div>
-    <div class="hstat">
-      <div class="hstat-val">XX<em>+</em></div>
-      <div class="hstat-label">Áreas mapeadas</div>
-    </div>
-    <div class="hstat">
-      <div class="hstat-val">2<em>+</em></div>
-      <div class="hstat-label">Instituições parceiras</div>
-    </div>
-    <div class="hstat">
-      <div class="hstat-val">00<em>Gbs</em></div>
-      <div class="hstat-label">Dados processados</div>
-    </div>
-  </div>
-</section>
-
-<div class="strip">
-  <div class="strip-track">
-    <span class="strip-item">Lítio</span><span class="strip-item">Cobalto</span>
-    <span class="strip-item">Nióbio</span><span class="strip-item">Terras Raras</span><span class="strip-item">Grafita</span>
-    <span class="strip-item">Modelagem 3D</span><span class="strip-item">Geofísica</span>
-    <span class="strip-item">Machine Learning</span><span class="strip-item">Sensoriamento Remoto</span>
-    <span class="strip-item">Lítio</span><span class="strip-item">Cobalto</span>
-    <span class="strip-item">Nióbio</span><span class="strip-item">Terras Raras</span>
-    <span class="strip-item">Titânio</span><span class="strip-item">Modelagem 3D</span>
-    <span class="strip-item">Machine Learning</span><span class="strip-item">Sensoriamento Remoto</span>
-  </div>
-</div>
-
-<!-- SOBRE -->
-<section id="sobre">
-  <div class="section">
-    <div class="section-header reveal">
-      <div class="section-label">Sobre o Projeto</div>
-      <h2 class="section-h2">O que é o Prospecta 4.0?</h2>
-      <p class="section-lead">
-        Uma iniciativa que reúne tecnológia e mapeamentos geológicos para mapear
-        recursos minerais críticos para a transição energética global.
+<main>
+  <section id="hero" class="hero-section">
+    <div class="hero-copy reveal">
+      <div class="hero-kicker">Ciência, tecnologia e mineração para o futuro</div>
+      <h1 class="hero-h1">PROSPECTA 4.0</h1>
+      <p class="hero-sub">
+        Um projeto que une ciência, tecnologia e inovação para transformar a prospecção mineral no Brasil.
       </p>
+      <div class="hero-btns">
+        <a href="#sobre" class="btn-green">Conheça o projeto</a>
+        <a href="#tecnologias" class="btn-ghost">Ver tecnologias</a>
+      </div>
     </div>
 
-    <div class="sobre-body reveal" style="animation-delay:0.1s">
-      <div class="sobre-text">
-        <p>
-          O <strong>Prospecta 4.0</strong> é um projeto de iniciação tecnológica que integra modelagem 3D, inteligência artificial para identificar e avaliar
-          <strong>depósitos de minerais estratégicos</strong> no Brasil com precisão inédita.
-        </p>
-        <p>
-          Em um cenário de <strong>transição energética</strong> e disputas globais por cadeias de
-          suprimentos críticas, minerais como lítio, cobalto, nióbio e terras raras tornam-se
-          ativos estratégicos nacionais. Nossa missão é desenvolver a infraestrutura científica
-          necessária para mapear, modelar e quantificar esses recursos.
+    <div class="hero-panel reveal" style="animation-delay:0.1s" aria-label="Mapa exploratório do Prospecta 4.0">
+      <div class="map-card">
+        <div class="map-header">
+          <span>Modelagem exploratória</span>
+          <strong>Brasil</strong>
+        </div>
+        <div class="map-grid">
+          <span class="target t1"></span>
+          <span class="target t2"></span>
+          <span class="target t3"></span>
+          <span class="target t4"></span>
+          <span class="route r1"></span>
+          <span class="route r2"></span>
+        </div>
+        <div class="scan-card">
+          <span class="scan-line"></span>
+          <strong>IA + geotecnologias</strong>
+          <small>Identificação de áreas com potencial mineral</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <div class="divider"></div>
+
+
+  <section id="sobre">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="section-label">Sobre o Projeto</div>
+        <h2 class="section-h2">A geologia encontra a inteligência computacional.</h2>
+        <p class="section-lead">
+          O Prospecta 4.0 busca identificar áreas com potencial para minerais estratégicos e críticos,
+          essenciais ao desenvolvimento tecnológico, energético e agrícola do país.
         </p>
       </div>
 
-      <div>
-        <div class="strata-head">Perfil estratigráfico explorado</div>
-        <div class="strata">
-          
+      <div class="sobre-body reveal" style="animation-delay:0.1s">
+        <div class="sobre-text">
+          <p>
+            O <strong>Prospecta 4.0</strong> é um projeto de pesquisa que conecta geologia, inteligência artificial,
+            sensoriamento remoto, modelagem computacional e geotecnologias avançadas para ampliar o conhecimento
+            sobre recursos minerais no Brasil.
+          </p>
+          <p>
+            A iniciativa reúne universidades, instituições de pesquisa e pesquisadores em uma atuação colaborativa,
+            voltada à inovação científica e à geração de conhecimento aplicado para a prospecção mineral.
+          </p>
+        </div>
+
+        <div class="mission-card">
+          <span class="mission-label">Missão</span>
+          <strong>Transformar dados geológicos em inteligência para descoberta mineral.</strong>
+          <p>
+            Pesquisa integrada, tecnologia e colaboração institucional para apoiar decisões sobre minerais
+            estratégicos e críticos.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="divider"></div>
+  <div class="divider"></div>
 
-<!-- PILARES -->
-<section id="pilares">
-  <div class="section">
-    <div class="section-header reveal">
-      <div class="section-label">Infraestrutura Tecnológica</div>
-      <h2 class="section-h2">Pilares do Projeto</h2>
-      <p class="section-lead">
-        Seis frentes tecnológicas integradas que formam a base
-        científica e computacional do Prospecta 4.0.
-      </p>
-    </div>
-
-    <div class="pilares-grid reveal" style="animation-delay:0.1s">
-      <div class="pilar">
-        <div class="pilar-top">
-          <div class="pilar-num">01</div>
-          <div class="pilar-icon">🧊</div>
-        </div>
-        <h3>Modelagem Geológica 3D</h3>
-        <p>Modelos tridimensionais de depósitos integrando sondagem, geofísica e superfície para estimativa volumétrica de recursos minerais.</p>
-        <div class="pilar-tags"><span class="pilar-tag">GOCAD</span><span class="pilar-tag">Leapfrog</span><span class="pilar-tag">Surpac</span></div>
-      </div>
-      <div class="pilar">
-        <div class="pilar-top">
-          <div class="pilar-num">02</div>
-          <div class="pilar-icon">🌐</div>
-        </div>
-        <h3>Geofísica Computacional</h3>
-        <p>Processamento e inversão de dados magnéticos, gravimétricos e eletromagnéticos para mapeamento de alvos em profundidade.</p>
-        <div class="pilar-tags"><span class="pilar-tag">Airborne EM</span><span class="pilar-tag">Gravimetria</span><span class="pilar-tag">IP</span></div>
-      </div>
-      <div class="pilar">
-        <div class="pilar-top">
-          <div class="pilar-num">03</div>
-          <div class="pilar-icon">🤖</div>
-        </div>
-        <h3>Machine Learning</h3>
-        <p>Algoritmos para reconhecimento de padrões geoquímicos, classificação litológica automática e predição de zonas mineralizadas.</p>
-        <div class="pilar-tags"><span class="pilar-tag">Random Forest</span><span class="pilar-tag">CNN</span><span class="pilar-tag">XGBoost</span></div>
-      </div>
-      <div class="pilar">
-        <div class="pilar-top">
-          <div class="pilar-num">04</div>
-          <div class="pilar-icon">🛰️</div>
-        </div>
-        <h3>Sensoriamento Remoto</h3>
-        <p>Imagens multiespectrais e hiperespectrais de satélites e drones para mapeamento de alterações hidrotermais e assinaturas mineralógicas.</p>
-        <div class="pilar-tags"><span class="pilar-tag">ASTER</span><span class="pilar-tag">Sentinel-2</span><span class="pilar-tag">PRISMA</span></div>
-      </div>
-      <div class="pilar">
-        <div class="pilar-top">
-          <div class="pilar-num">05</div>
-          <div class="pilar-icon">📊</div>
-        </div>
-        <h3>Análise Geoestatística</h3>
-        <p>Krigagem, simulação estocástica e variografia para estimativa de teores e quantificação de incertezas em exploração mineral.</p>
-        <div class="pilar-tags"><span class="pilar-tag">Krigagem</span><span class="pilar-tag">GSLIB</span><span class="pilar-tag">MPS</span></div>
-      </div>
-      <div class="pilar">
-        <div class="pilar-top">
-          <div class="pilar-num">06</div>
-          <div class="pilar-icon">🗺️</div>
-        </div>
-        <h3>Plataforma de Dados Abertos</h3>
-        <p>Portais interativos, APIs e dashboards geoespaciais para disseminação dos resultados à comunidade científica e ao setor mineral.</p>
-        <div class="pilar-tags"><span class="pilar-tag">WebGIS</span><span class="pilar-tag">PostGIS</span><span class="pilar-tag">OGC</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- PROJETOS -->
-<section id="projetos">
-  <div class="section">
-    <div class="section-header reveal">
-      <div class="section-label">Resultados</div>
-      <h2 class="section-h2">Projetos em Destaque</h2>
-      <p class="section-lead">
-        Casos aplicados de modelagem exploratória em diferentes
-        contextos geológicos e mineralógicos pelo Brasil.
-      </p>
-    </div>
-
-    <div class="proj-list reveal" style="animation-delay:0.1s">
-      <a href="#" class="proj-card featured">
-        <div>
-          <div class="proj-cat">Dashboard · Mapeamento · Bacia de Irecê, Bahia</div>
-          <div class="proj-title">Desenvolvimento de Dashboard de geomapeamento com filtragem</div>
-          <div class="proj-desc">Desenvolvimento de um dashboard interativo para visualização e filtragem de dados geoespaciais da Bacia de Irecê.</div>
-          <div class="proj-status">Em andamento</div>
-        </div>
-        <div class="proj-arrow">→</div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- EQUIPE -->
-<section id="equipe">
-  <div class="section">
-    <div class="section-header reveal">
-      <div class="section-label">Time</div>
-      <h2 class="section-h2">Pesquisadores e desenvolvedor</h2>
-      <p class="section-lead">
-        Equipe multidisciplinar de geologia,
-        ciência de dados e engenharia de software.
-      </p>
-    </div>
-
-    <div class="team-grid reveal" style="animation-delay:0.1s">
-      <div class="team-card">
-        <div class="team-name">Soltan Galano</div>
-        <div class="team-role">Coordenador · Responsável técnico</div>
-      </div>
-      <div class="team-card">
-        <div class="team-name">Matheus Siva Rodrigues</div>
-        <div class="team-role">Bolsista · Desenvolvedor Back-end</div>
-      </div>
-      <div class="team-card">
-        <div class="team-name">Mailson</div>
-        <div class="team-role">Bolsista · Desenvolvedor Back-end</div>
-      </div>
-      <div class="team-card">
-        <div class="team-name">Yago</div>
-        <div class="team-role">Bolsista · Desenvolvedor Back-end</div>
-      </div>      </div>
-
-      
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- CONTATO -->
-<section id="contato">
-  <div class="section">
-    <div class="section-header reveal">
-      <div class="section-label">Contato</div>
-      <h2 class="section-h2">Colabore com o Projeto</h2>
-      <p class="section-lead">
-        Pesquisadores, instituições e empresas do setor mineral
-        são bem-vindos a colaborar com o Prospecta 4.0.
-      </p>
-    </div>
-
-    <div class="contato-wrap reveal" style="animation-delay:0.1s">
-      <div class="contato-left">
-        <p>
-          Se você representa uma instituição de pesquisa, empresa do setor mineral
-          ou órgão governamental com interesse em colaborar, entre em contato.
-          Estamos abertos a parcerias científicas e acesso à plataforma de dados.
+  <section id="minerais">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="section-label">Minerais de Interesse</div>
+        <h2 class="section-h2">Recursos importantes para a economia e para a sociedade.</h2>
+        <p class="section-lead">
+          O projeto foca em minerais usados em tecnologias, energia, agricultura, indústria e cadeias produtivas
+          fundamentais para o desenvolvimento nacional.
         </p>
-        <div class="c-links">
-          <div class="c-link-row">
-            <span class="c-icon">✉️</span>
-            <a href="mailto:"></a>
-          </div>
-          <div class="c-link-row">
-            <span class="c-icon">📞</span>
-            <span>+55 75</span>
-          </div>
-          <div class="c-link-row">
-            <span class="c-icon">📍</span>
-            <span>LAPIG - UEFS, Feira de Santana, BA</span>
-          </div>
-        </div>
       </div>
 
-      <div class="form-box">
-        <div class="fg-2">
-          <div class="fg"><label>Nome</label><input type="text" placeholder="Seu nome"></div>
-          <div class="fg"><label>Instituição</label><input type="text" placeholder="Universidade ou empresa"></div>
-        </div>
-        <div class="fg"><label>E-mail</label><input type="email" placeholder="@email.com"></div>
-        <div class="fg">
-          <label>Interesse</label>
-          <select>
-            <option value="" disabled selected>Selecione...</option>
-            <option>Colaboração em Pesquisa</option>
-            <option>Parceria Institucional</option>
-            <option>Acesso à Plataforma de Dados</option>
-            <option>Demanda de Modelagem Aplicada</option>
-            <option>Outro</option>
-          </select>
-        </div>
-        <div class="fg"><label>Mensagem</label><textarea rows="4" placeholder="Descreva sua proposta..."></textarea></div>
-        <button class="btn-submit">Enviar Mensagem</button>
+      <div class="minerais-grid reveal" style="animation-delay:0.1s">
+        <article class="mineral-card">
+          <div class="mineral-img" style="background-image:url('assets/img/img1.jpg')"></div>
+          <div class="card-topline">Minerais estratégicos</div>
+          <h3>Fosfato, lítio, cobre, níquel e tântalo</h3>
+          <p>
+            Insumos relevantes para agricultura, baterias, eletrificação, infraestrutura tecnológica e novos ciclos industriais.
+          </p>
+        </article>
+        <article class="mineral-card">
+          <div class="mineral-img" style="background-image:url('assets/img/img2.jpg')"></div>
+          <div class="card-topline">Minerais críticos</div>
+          <h3>Terras-raras, cobalto, gálio, grafite e índio</h3>
+          <p>
+            Elementos presentes em smartphones, sensores, sistemas de energia, mobilidade elétrica e tecnologias avançadas.
+          </p>
+        </article>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PARCEIROS -->
-<div id="parceiros">
-  <div class="parc-label">Parceiros &amp; Apoio</div>
-  <div class="parc-list">
-    <span class="parc-item">UEFS</span>
-    <span class="parc-item">LAPIG</span>
-        <span class="parc-item">GOOGLE ENGINE</span>
+  <div class="divider"></div>
 
-  </div>
-</div>
+  <section id="tecnologias">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="section-label">Tecnologias</div>
+        <h2 class="section-h2">Ferramentas modernas para estudar minerais.</h2>
+        <p class="section-lead">
+          O Prospecta 4.0 combina métodos digitais e geocientíficos para analisar grandes volumes de dados e
+          reconhecer padrões associados a ambientes mineralizados.
+        </p>
+      </div>
 
-<!-- FOOTER -->
+      <div class="tech-grid reveal" style="animation-delay:0.1s">
+        <div class="tech-item">
+          <span>01</span>
+          <h3>Inteligência artificial</h3>
+          <p>Modelos para reconhecer padrões geológicos, priorizar alvos e apoiar a interpretação de dados.</p>
+        </div>
+        <div class="tech-item">
+          <span>02</span>
+          <h3>Sensoriamento remoto</h3>
+          <p>Uso de imagens orbitais e dados multiespectrais para mapear assinaturas minerais e alterações.</p>
+        </div>
+        <div class="tech-item">
+          <span>03</span>
+          <h3>Drones UAV</h3>
+          <p>Levantamentos aéreos de alta resolução para aproximar campo, laboratório e análise computacional.</p>
+        </div>
+        <div class="tech-item">
+          <span>04</span>
+          <h3>Modelagem computacional</h3>
+          <p>Integração de dados geológicos e geoespaciais para construir cenários exploratórios mais robustos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="impacto">
+    <div class="section impact-wrap">
+      <div class="section-header reveal">
+        <div class="section-label">Contribuições</div>
+        <h2 class="section-h2">Ciência aplicada ao desenvolvimento sustentável do Brasil.</h2>
+      </div>
+
+      <div class="impact-list reveal" style="animation-delay:0.1s">
+        <div>Ampliar o conhecimento sobre minerais estratégicos.</div>
+        <div>Apoiar a agricultura com recursos minerais importantes.</div>
+        <div>Desenvolver tecnologias de exploração mineral.</div>
+        <div>Formar novos pesquisadores.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="dashboard">
+    <div class="dash-section">
+      <div class="dash-inner">
+        <div class="section-header reveal">
+          <div class="dash-label-row">
+            <div class="section-label">Dashboard Mineral</div>
+            <span class="sim-badge">DEMO</span>
+          </div>
+          <h2 class="section-h2">Mapeamento de áreas com potencial mineral na Bahia.</h2>
+          <p class="section-lead">Dados exploratórios integrados de regiões com ocorrência de minerais estratégicos e críticos no estado da Bahia.</p>
+        </div>
+        <div class="dash-body reveal" style="animation-delay:0.1s">
+          <aside class="dash-sidebar">
+            <div class="dash-stats-row">
+              <div class="dash-stat">
+                <span class="dash-val">7</span>
+                <span class="dash-label">Áreas</span>
+              </div>
+              <div class="dash-stat">
+                <span class="dash-val">5</span>
+                <span class="dash-label">Minerais</span>
+              </div>
+              <div class="dash-stat">
+                <span class="dash-val">BA</span>
+                <span class="dash-label">Estado</span>
+              </div>
+            </div>
+            <div class="dash-filters">
+              <div class="dash-filters-label">Filtrar por tipo</div>
+              <button class="mfilter-btn active" data-filter="todos">Todos</button>
+              <button class="mfilter-btn" data-filter="estrategico">Estratégicos</button>
+              <button class="mfilter-btn" data-filter="critico">Críticos</button>
+            </div>
+            <div class="dash-legend">
+              <div class="legend-item"><span class="legend-dot" style="background:#b7d36b"></span>Estratégico</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#c7a46a"></span>Crítico</div>
+            </div>
+            <div class="dash-info" id="map-info">
+              <div class="info-kicker" id="info-mineral">Selecione uma área</div>
+              <div class="info-name" id="info-name">Clique em um marcador</div>
+              <div class="info-meta">
+                <span class="info-badge" id="info-type">—</span>
+                <span class="info-status" id="info-status">—</span>
+              </div>
+              <p class="info-desc" id="info-desc">Os marcadores no mapa representam áreas com ocorrência ou potencial para minerais estratégicos e críticos.</p>
+            </div>
+          </aside>
+          <div class="dash-map-wrap">
+            <div id="mineral-map"></div>
+            <div class="map-overlay-label">
+              <span class="map-ol-dot"></span> Prospecta 4.0 · Dados exploratórios
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="rede">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="section-label">Rede Colaborativa</div>
+        <h2 class="section-h2">Instituições de ensino, pesquisa e tecnologia trabalhando juntas.</h2>
+        <p class="section-lead">
+          O projeto conecta instituições e pesquisadores para ampliar o conhecimento sobre recursos minerais
+          importantes para o desenvolvimento do país.
+        </p>
+      </div>
+
+      <div class="partners-grid reveal" style="animation-delay:0.1s">
+        <span>UEFS</span>
+        <span>UFBA</span>
+        <span>SGB</span>
+        <span>IFBA</span>
+        <span>UFRB</span>
+        <span>Instituto Tecnológico Vale</span>
+        <span>CBPM</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="equipe">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="section-label">Time</div>
+        <h2 class="section-h2">Pesquisadores e desenvolvedor</h2>
+        <p class="section-lead">Equipe multidisciplinar de geologia, ciência de dados e engenharia de software.</p>
+      </div>
+      <div class="team-carousel reveal" id="team-carousel">
+        <div class="team-track" id="team-track">
+          <div class="team-card">
+            <div class="team-avatar av-1">SG</div>
+            <div class="team-name">Soltan Galano</div>
+            <div class="team-role">Coordenador · Responsável técnico</div>
+            <div class="team-inst">UEFS · LAPIG</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar av-2">MR</div>
+            <div class="team-name">Matheus Siva Rodrigues</div>
+            <div class="team-role">Bolsista · Desenvolvedor Back-end</div>
+            <div class="team-inst">UEFS</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar av-3">ML</div>
+            <div class="team-name">Mailson</div>
+            <div class="team-role">Bolsista · Desenvolvedor Back-end</div>
+            <div class="team-inst">UEFS</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar av-4">YG</div>
+            <div class="team-name">Yago</div>
+            <div class="team-role">Bolsista · Desenvolvedor Back-end</div>
+            <div class="team-inst">UEFS</div>
+          </div>
+        </div>
+        <div class="team-fade-right"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="contato">
+    <div class="section contato-section">
+      <div class="section-header reveal">
+        <div class="section-label">Contato</div>
+        <h2 class="section-h2">Acompanhe nossas pesquisas, descobertas e avanços.</h2>
+        <p class="section-lead">
+          Seja bem-vindo ao Prospecta 4.0. Há muita ciência, tecnologia e inovação pela frente.
+        </p>
+      </div>
+
+      <div class="contato-wrap reveal" style="animation-delay:0.1s">
+        <div class="contato-left">
+          <p>
+            Pesquisadores, instituições e parceiros do setor mineral são bem-vindos para colaborar com a jornada
+            de inovação do Prospecta 4.0.
+          </p>
+          <div class="c-links">
+            <div class="c-link-row">
+              <span class="c-icon">Email</span>
+              <span>Contato institucional</span>
+            </div>
+            <div class="c-link-row">
+              <span class="c-icon">Local</span>
+              <span>Feira de Santana, Bahia</span>
+            </div>
+          </div>
+        </div>
+
+        <form class="form-box">
+          <div class="fg-2">
+            <div class="fg"><label for="nome">Nome</label><input id="nome" type="text" placeholder="Seu nome"></div>
+            <div class="fg"><label for="instituicao">Instituição</label><input id="instituicao" type="text" placeholder="Universidade ou empresa"></div>
+          </div>
+          <div class="fg"><label for="email">E-mail</label><input id="email" type="email" placeholder="seu@email.com"></div>
+          <div class="fg">
+            <label for="interesse">Interesse</label>
+            <select id="interesse">
+              <option value="" disabled selected>Selecione...</option>
+              <option>Pesquisa científica</option>
+              <option>Parceria institucional</option>
+              <option>Geotecnologias</option>
+              <option>Mineração e inovação</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="fg"><label for="mensagem">Mensagem</label><textarea id="mensagem" rows="4" placeholder="Conte como deseja colaborar..."></textarea></div>
+          <button class="btn-submit" type="submit">Enviar mensagem</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
 <footer>
-  <div class="f-left">Prospecta 4.0 </div>
+  <div class="f-left">PROSPECTA 4.0</div>
   <div class="f-copy">© 2026 Prospecta 4.0</div>
   <div class="f-links">
-    <a href="#">Dados</a>
-    <a href="#">Publicações</a>
-    <a href="#">GitHub</a>
-    <a href="#">LinkedIn</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#minerais">Minerais</a>
+    <a href="#tecnologias">Tecnologias</a>
   </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="assets/js/index.js"></script>
 </body>
 </html>
