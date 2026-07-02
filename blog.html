@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog · Prospecta 4.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/blog.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="bl-header">
+  <a href="index.html" class="bl-back">← Site</a>
+  <div class="bl-header-brand">
+    <span class="bl-brand-name">PROSPECTA</span>
+    <span class="bl-brand-ver">4.0</span>
+    <span class="bl-header-sep">·</span>
+    <span class="bl-header-title">Blog</span>
+  </div>
+  <div class="bl-header-count"><span id="postCount">0</span> posts</div>
+</header>
+
+<!-- HERO -->
+<div class="bl-hero">
+  <div class="bl-hero-inner">
+    <div class="bl-hero-label">Publicações & Notícias</div>
+    <h1 class="bl-hero-title">Pesquisa e contexto sobre<br>minerais críticos no Brasil.</h1>
+    <p class="bl-hero-lead">Artigos científicos, notícias relevantes e atualizações do projeto Prospecta 4.0.</p>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="bl-controls">
+  <div class="bl-controls-inner">
+    <div class="bl-filters">
+      <button class="bl-filter active" data-filter="todos">Todos</button>
+      <button class="bl-filter" data-filter="publicacao">
+        <span class="bl-filter-dot pub"></span> Publicações
+      </button>
+      <button class="bl-filter" data-filter="noticia">
+        <span class="bl-filter-dot news"></span> Notícias
+      </button>
+    </div>
+    <div class="bl-search-wrap">
+      <input type="search" id="searchInput" class="bl-search" placeholder="Buscar posts…">
+      <span class="bl-search-icon">⌕</span>
+    </div>
+  </div>
+</div>
+
+<!-- GRID -->
+<main class="bl-main">
+  <div class="bl-grid" id="blogGrid"></div>
+  <div class="bl-empty" id="blogEmpty" style="display:none">
+    <div class="bl-empty-icon">◎</div>
+    <div class="bl-empty-text">Nenhum post encontrado.</div>
+  </div>
+</main>
+
+<!-- FOOTER TIP -->
+<footer class="bl-footer">
+  <div class="bl-footer-inner">
+    <span class="bl-footer-icon">⊕</span>
+    <span>Para adicionar um novo post, edite <code>assets/js/blog-data.js</code> e inclua um objeto no início do array <code>BLOG_POSTS</code>.</span>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="bl-modal-overlay" id="blModalOverlay" role="dialog" aria-modal="true">
+  <div class="bl-modal-box" id="blModalBox">
+    <button class="bl-modal-close" id="blModalClose" aria-label="Fechar">×</button>
+    <div id="blModalInner"></div>
+  </div>
+</div>
+
+<script src="assets/js/blog-data.js"></script>
+<script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var activeFilter = params.get('f') || 'todos';
+  var searchQuery = '';
+
+  // Activate the right filter button from URL param
+  document.querySelectorAll('.bl-filter').forEach(function (btn) {
+    btn.classList.toggle('active', btn.dataset.filter === activeFilter);
+  });
+
+  // ── FORMAT DATE ─────────────────────────────────────────────
+  function fmtDate(iso) {
+    if (!iso) return '';
+    var months = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    var p = iso.split('-');
+    return parseInt(p[2], 10) + ' ' + months[parseInt(p[1], 10) - 1] + ' ' + p[0];
+  }
+
+  // ── FILTER ──────────────────────────────────────────────────
+  function filtered() {
+    return BLOG_POSTS.filter(function (p) {
+      if (activeFilter !== 'todos' && p.type !== activeFilter) return false;
+      if (searchQuery) {
+        var q = searchQuery.toLowerCase();
+        var haystack = [p.title, p.excerpt, p.src, (p.tags || []).join(' '), (p.authors || '')].join(' ').toLowerCase();
+        if (haystack.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+  }
+
+  // ── RENDER GRID ─────────────────────────────────────────────
+  function render() {
+    var posts = filtered();
+    var grid = document.getElementById('blogGrid');
+    var empty = document.getElementById('blogEmpty');
+    document.getElementById('postCount').textContent = BLOG_POSTS.length;
+
+    if (posts.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = '';
+      return;
+    }
+    empty.style.display = 'none';
+
+    grid.innerHTML = posts.map(function (p, i) {
+      var isPub = p.type === 'publicacao';
+      var typeLabel = isPub ? 'Publicação' : 'Notícia';
+      var tagsHtml = (p.tags || []).slice(0, 3).map(function (t) {
+        return '<span class="bl-card-tag">' + t + '</span>';
+      }).join('');
+      var authorsHtml = p.authors
+        ? '<div class="bl-card-authors">' + p.authors + '</div>'
+        : '';
+      var refHtml = p.ref
+        ? '<span class="bl-card-ref">' + p.ref + '</span>'
+        : '';
+
+      return '<article class="bl-card' + (isPub ? ' pub' : ' news') + '" data-id="' + p.id + '" style="animation-delay:' + (i * 0.05) + 's">' +
+        '<div class="bl-card-top">' +
+          '<span class="bl-card-type ' + (isPub ? 'pub' : 'news') + '">' + typeLabel + '</span>' +
+          '<span class="bl-card-date">' + fmtDate(p.date) + '</span>' +
+        '</div>' +
+        '<div class="bl-card-src">' + p.src + refHtml + '</div>' +
+        '<h2 class="bl-card-title">' + p.title + '</h2>' +
+        authorsHtml +
+        '<p class="bl-card-excerpt">' + p.excerpt + '</p>' +
+        '<div class="bl-card-bottom">' +
+          '<div class="bl-card-tags">' + tagsHtml + '</div>' +
+          '<span class="bl-card-more">Ler mais →</span>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+
+    grid.querySelectorAll('.bl-card').forEach(function (card) {
+      card.addEventListener('click', function () { openModal(card.dataset.id); });
+    });
+  }
+
+  // ── MODAL ───────────────────────────────────────────────────
+  function openModal(id) {
+    var p = BLOG_POSTS.find(function (x) { return x.id === id; });
+    if (!p) return;
+    var isPub = p.type === 'publicacao';
+    var tagsHtml = (p.tags || []).map(function (t) {
+      return '<span class="bl-modal-tag">' + t + '</span>';
+    }).join('');
+    var authorsHtml = p.authors
+      ? '<div class="bl-modal-authors">' + p.authors + '</div>'
+      : '';
+    var refHtml = p.ref ? ' · ' + p.ref : '';
+
+    document.getElementById('blModalInner').innerHTML =
+      '<div class="bl-modal-head">' +
+        '<span class="bl-card-type ' + (isPub ? 'pub' : 'news') + '">' + (isPub ? 'Publicação' : 'Notícia') + '</span>' +
+        '<span class="bl-modal-src">' + p.src + refHtml + '</span>' +
+        '<span class="bl-modal-date">' + fmtDate(p.date) + '</span>' +
+      '</div>' +
+      '<h2 class="bl-modal-title">' + p.title + '</h2>' +
+      authorsHtml +
+      '<p class="bl-modal-body">' + p.body + '</p>' +
+      '<div class="bl-modal-tags">' + tagsHtml + '</div>';
+
+    document.getElementById('blModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('blModalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('blModalClose').addEventListener('click', closeModal);
+  document.getElementById('blModalOverlay').addEventListener('click', function (e) {
+    if (e.target === this) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── FILTER BUTTONS ──────────────────────────────────────────
+  document.querySelectorAll('.bl-filter').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.bl-filter').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      render();
+    });
+  });
+
+  // ── SEARCH ──────────────────────────────────────────────────
+  var searchDebounce;
+  document.getElementById('searchInput').addEventListener('input', function () {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(function () {
+      searchQuery = document.getElementById('searchInput').value.trim();
+      render();
+    }, 200);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

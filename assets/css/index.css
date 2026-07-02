@@ -1075,6 +1075,42 @@ footer {
 	line-height: 1.6;
 }
 
+.blog-ver-link {
+	margin-top: 20px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.blog-ver-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 9px 18px;
+	background: transparent;
+	border: 1px solid rgba(183,211,107,0.28);
+	border-radius: 8px;
+	color: var(--green);
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 0.68rem;
+	font-weight: 700;
+	text-decoration: none;
+	letter-spacing: 0.06em;
+	transition: background 0.18s, border-color 0.18s, transform 0.18s;
+}
+.blog-ver-btn:hover {
+	background: rgba(183,211,107,0.08);
+	border-color: rgba(183,211,107,0.5);
+	transform: translateX(3px);
+}
+.blog-ver-btn-news {
+	border-color: rgba(199,164,106,0.28);
+	color: var(--earth);
+}
+.blog-ver-btn-news:hover {
+	background: rgba(199,164,106,0.08);
+	border-color: rgba(199,164,106,0.5);
+}
+
 @keyframes pulse-dot {
 	0%, 100% { opacity: 1; transform: scale(1); }
 	50% { opacity: 0.6; transform: scale(0.8); }
