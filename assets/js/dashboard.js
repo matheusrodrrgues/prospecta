@@ -106,7 +106,7 @@ var state = {
   region: 'all',
   type: 'critico',
   minerals: new Set(['Terras-raras','Magnesita','Urânio','Fosfato','Cromo']),
-  baseLayer: 'map'
+  baseLayer: 'satellite'
 };
 
 // ── MAP INIT ──────────────────────────────────────────────────────────────────
@@ -136,7 +136,11 @@ function initMap() {
     { maxZoom: 18, attribution: '© <a href="https://www.esri.com/">Esri</a>' }
   );
 
-  mapLayer.addTo(map);
+  satelliteLayer.addTo(map);
+
+  // Leaflet needs invalidateSize when container is sized by flex after init
+  setTimeout(function() { map.invalidateSize(); }, 100);
+  window.addEventListener('resize', function() { map.invalidateSize(); });
 }
 
 // ── MARKERS ───────────────────────────────────────────────────────────────────
@@ -348,12 +352,12 @@ function setBaseLayer(lyr) {
   state.baseLayer = lyr;
   if (lyr === 'satellite') {
     if (map.hasLayer(mapLayer)) mapLayer.remove();
-    satelliteLayer.addTo(map);
-    if (geeTileLayer) geeTileLayer.addTo(map);
+    if (!map.hasLayer(satelliteLayer)) satelliteLayer.addTo(map);
+    if (geeTileLayer && !map.hasLayer(geeTileLayer)) geeTileLayer.addTo(map);
   } else {
     if (map.hasLayer(satelliteLayer)) satelliteLayer.remove();
     if (geeTileLayer && map.hasLayer(geeTileLayer)) geeTileLayer.remove();
-    mapLayer.addTo(map);
+    if (!map.hasLayer(mapLayer)) mapLayer.addTo(map);
   }
 }
 
