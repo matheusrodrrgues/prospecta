@@ -56,6 +56,93 @@ if (contactForm) {
 })();
 
 (function() {
+	var modalData = {
+		pub1: {
+			type: 'pub',
+			src: 'XII SimeXmin · 2025', ref: 'AT1-01-189',
+			title: 'Fosfogênese Proterozoica do Cráton do São Francisco: Conexões com Eventos Globais Paleoproterozoicos e Neoproterozoicos e Implicações Exploratórias',
+			authors: 'Ribeiro, T.S. · Franca-Rocha, W.S. · Oliveira, L.R. · Santana, A.V.A. · Misi, A.',
+			body: 'Revisão das condições paleoambientais das mineralizações de fosfato no Cráton do São Francisco, conectando eventos glaciais e biogeoquímicos do Proterozóico a janelas específicas de formação de depósitos fosforíticos na Bahia. A recorrência dessas condições paleoambientais no Cráton do São Francisco sugere que a fosfogênese está condicionada a janelas específicas de transições climáticas globais e mudanças no estado redox dos oceanos ao longo do tempo geológico e da paleoproductividade oceânica.',
+			tags: ['Fosfogênese', 'Proterozoico', 'Bahia', 'Cráton São Francisco']
+		},
+		pub2: {
+			type: 'pub',
+			src: 'XII SimeXmin · 2025', ref: 'AT1-01-190',
+			title: 'Caracterização Petrográfica e Litogeoquímica de Granitoides Associados à Mineralização de Apatita em Ambiente Skarn no Complexo Tanque Novo – Ipirá, Bahia, Brasil',
+			authors: 'Silva, L.C. · Ribeiro, T.S. · Franca-Rocha, W.S. · Brito, L.P.',
+			body: 'Análise petrográfica e litogeoquímica de 10 amostras do Complexo Tanque Novo–Ipirá, identificando assinaturas composicionais distintas entre o núcleo e a borda das zonas de reação relacionadas à mineralização de apatita em skarn. As rochas do núcleo apresentam composição dominada por quartzo (~50%) e ortoclásio (~30%), enquanto as amostras da borda exibem maior participação de piroxênio. A integração dos dados geoquímicos permite identificar diferenças mineralógicas e composicionais entre granitoides em posições distintas, indicando processos de evolução magmática e interação hidrotermal relacionados à mineralização fosforítica.',
+			tags: ['Petrografia', 'Litogeoquímica', 'Skarn', 'Apatita', 'Ipirá']
+		},
+		pub3: {
+			type: 'pub',
+			src: 'XII SimeXmin · 2025', ref: 'AT1-01-191',
+			title: 'Predição de Fosforita com Estratigrafia de Sequências, Assinaturas Geofísica e Geoquímica: Exemplo na Formação Salitre, Sub-Bacia de Irecê, Neoproterozoico, BA',
+			authors: 'Santana, A.V.A. · Lima, M.S. · Queiroz, G.S. · Freitas Jr., D.J. · Sousa, A.L. · Ribeiro, T.S. · Franca-Rocha, W.S.',
+			body: 'Uso de pFRX e gamaespectrometria portátil para identificação de sequências deposicionais e parâmetros preditivos de fosfato sedimentar na Sub-Bacia de Irecê, com integração de perfis colunares de alta resolução na Formação Salitre. Foram identificadas 8 sequências deposicionais com espessura métrica. Os dados de P₂O₅ mais expressivos foram obtidos na Sequência 8, associados à fácies Estromatólito dolomitizado. As concentrações de P₂O₅ e MgO indicam tendências correlativas com os dados geoquímicos, sugerindo que fosforitização ocorreu em zonas de rampa interna.',
+			tags: ['Estratigrafia', 'Fosforita', 'Irecê', 'Formação Salitre', 'Neoproterozoico']
+		},
+		news1: {
+			type: 'news',
+			src: 'G1 · Globo', ref: '07 Mai 2026',
+			title: 'Lula e Trump discutem potencial brasileiro em terras raras e minerais críticos na Casa Branca',
+			body: 'Lula afirmou que discutiu com Trump o potencial brasileiro na exploração de terras raras e minerais críticos, considerados estratégicos para a economia global. Segundo Lula, o Brasil pretende ampliar o conhecimento sobre o próprio território e avançar na exploração desses recursos de forma planejada. O presidente disse que o país não quer repetir o modelo histórico de exportação de matéria-prima sem agregação de valor. De acordo com ele, a proposta é desenvolver a cadeia produtiva no Brasil, incluindo etapas de processamento e industrialização — criando empregos e renda no país em vez de exportar minério bruto.',
+			tags: ['Terras-raras', 'Política mineral', 'Brasil', 'Trump · Lula']
+		},
+		news2: {
+			type: 'news',
+			src: 'Prospecta 4.0', ref: 'Contexto',
+			title: 'A pesquisa que antecipa o que o mundo vai precisar',
+			body: 'Enquanto governos negociam acesso a minerais críticos e estratégicos, o Prospecta 4.0 já mapeia e modela o potencial mineral da Bahia com ferramentas de inteligência artificial e geotecnologias. O projeto identifica áreas com ocorrência de terras-raras, fosfato, urânio, cromo e magnesita — exatamente os minerais no centro das disputas geopolíticas atuais. Ciência pública brasileira construindo vantagem estratégica antes que a demanda chegue.',
+			tags: ['Prospecta 4.0', 'Minerais críticos', 'Bahia', 'IA & Geotecnologias']
+		}
+	};
+
+	var overlay = document.getElementById('modalOverlay');
+	var inner   = document.getElementById('modalInner');
+	var closeBtn = document.getElementById('modalClose');
+
+	function openModal(id) {
+		var d = modalData[id];
+		if (!d) return;
+		var isNews = d.type === 'news';
+		var tagsHtml = d.tags.map(function(t) {
+			return '<span class="modal-tag">' + t + '</span>';
+		}).join('');
+		var authorsHtml = d.authors
+			? '<div class="modal-authors">' + d.authors + '</div>'
+			: '';
+		inner.innerHTML =
+			'<div class="modal-head">' +
+				'<span class="modal-src' + (isNews ? ' news' : '') + '">' + d.src + '</span>' +
+				'<span class="modal-ref">' + d.ref + '</span>' +
+			'</div>' +
+			'<h2 class="modal-title">' + d.title + '</h2>' +
+			authorsHtml +
+			'<p class="modal-body">' + d.body + '</p>' +
+			'<div class="modal-tags">' + tagsHtml + '</div>';
+		overlay.classList.add('open');
+		document.body.style.overflow = 'hidden';
+	}
+
+	function closeModal() {
+		overlay.classList.remove('open');
+		document.body.style.overflow = '';
+	}
+
+	document.querySelectorAll('.blog-card').forEach(function(card) {
+		card.addEventListener('click', function() { openModal(card.dataset.id); });
+	});
+
+	if (closeBtn) closeBtn.addEventListener('click', closeModal);
+	if (overlay) overlay.addEventListener('click', function(e) {
+		if (e.target === overlay) closeModal();
+	});
+	document.addEventListener('keydown', function(e) {
+		if (e.key === 'Escape') closeModal();
+	});
+})();
+
+(function() {
 	if (!document.getElementById('mineral-map') || typeof L === 'undefined') return;
 
 	var map = L.map('mineral-map', {

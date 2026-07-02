@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Mineral · Prospecta 4.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+
+<header class="db-header">
+  <a href="index.html" class="db-back">← Site</a>
+  <div class="db-header-brand">
+    <span class="db-brand-name">PROSPECTA</span>
+    <span class="db-brand-ver">4.0</span>
+    <span class="db-header-sep">·</span>
+    <span class="db-header-title">Dashboard Mineral</span>
+  </div>
+  <div class="db-period-pill" id="headerPeriod">2020_2</div>
+</header>
+
+<div class="db-layout">
+
+  <aside class="db-sidebar">
+
+    <div class="db-filter-group">
+      <div class="db-filter-label">Filtrar por região</div>
+      <div class="db-select-wrap">
+        <select id="regionSelect" class="db-select">
+          <option value="all">Todas as regiões</option>
+          <option value="irece">Bacia de Irecê</option>
+          <option value="chapada">Chapada Diamantina</option>
+          <option value="caetite">Caetité</option>
+          <option value="brumado">Brumado</option>
+          <option value="jacobina">Jacobina</option>
+          <option value="serrinha">Serrinha</option>
+        </select>
+        <span class="db-select-arrow">▾</span>
+      </div>
+    </div>
+
+    <div class="db-filter-group">
+      <div class="db-filter-label">Filtrar por Tipo</div>
+      <div class="db-type-btns">
+        <button class="db-type-btn active" data-type="critico">Crítico</button>
+        <button class="db-type-btn" data-type="estrategico">Estratégico</button>
+      </div>
+    </div>
+
+    <div class="db-filter-group" id="mineralGroupCritico">
+      <div class="db-filter-label">Minerais críticos</div>
+      <div class="db-mineral-list">
+        <label class="db-toggle-row">
+          <span>Terras-raras</span>
+          <span class="db-toggle"><input type="checkbox" data-mineral="Terras-raras" checked><span class="db-toggle-track"></span></span>
+        </label>
+        <label class="db-toggle-row">
+          <span>Magnesita</span>
+          <span class="db-toggle"><input type="checkbox" data-mineral="Magnesita" checked><span class="db-toggle-track"></span></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="db-filter-group" id="mineralGroupEstrategico" style="display:none">
+      <div class="db-filter-label">Minerais estratégicos</div>
+      <div class="db-mineral-list">
+        <label class="db-toggle-row">
+          <span>Urânio</span>
+          <span class="db-toggle"><input type="checkbox" data-mineral="Urânio" checked><span class="db-toggle-track"></span></span>
+        </label>
+        <label class="db-toggle-row">
+          <span>Fosfato</span>
+          <span class="db-toggle"><input type="checkbox" data-mineral="Fosfato" checked><span class="db-toggle-track"></span></span>
+        </label>
+        <label class="db-toggle-row">
+          <span>Cromo</span>
+          <span class="db-toggle"><input type="checkbox" data-mineral="Cromo" checked><span class="db-toggle-track"></span></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="db-filter-group">
+      <div class="db-filter-label">Camadas</div>
+      <div class="db-layers-list">
+        <label class="db-layer-check"><input type="checkbox" id="layerRodovias"><span class="db-layer-box"></span> Distância p/ rodovias</label>
+        <label class="db-layer-check"><input type="checkbox" id="layerReservas"><span class="db-layer-box"></span> Reservas Ambientais</label>
+        <label class="db-layer-check"><input type="checkbox" id="layerCidades"><span class="db-layer-box"></span> Cidades próximas</label>
+      </div>
+    </div>
+
+    <div class="db-sidebar-footer">
+      <div class="db-filter-label">Fonte dos dados</div>
+      <span class="db-source-tag">LAPIG · UEFS</span>
+      <span class="db-source-tag">Prospecta 4.0</span>
+      <span class="db-source-tag">GEE · Landsat</span>
+    </div>
+
+  </aside>
+
+  <div class="db-main">
+    <div class="db-map-topbar">
+      <h1 class="db-main-title">Dashboard</h1>
+      <div class="db-layer-toggle">
+        <button class="db-lyr-btn active" data-lyr="map">Mapa</button>
+        <button class="db-lyr-btn" data-lyr="satellite">Satélite</button>
+      </div>
+    </div>
+
+    <div class="db-map-wrap">
+      <div id="dbMap"></div>
+      <div class="db-map-mini-legend">
+        <span class="db-mml-dot" style="background:#b7d36b"></span><span>Estratégico</span>
+        <span class="db-mml-dot" style="background:#c7a46a;margin-left:10px"></span><span>Crítico</span>
+        <span class="db-mml-dot" style="background:#f8f4e9;margin-left:10px"></span><span>Hub</span>
+      </div>
+      <div class="db-gee-notice" id="geeNotice">
+        <span class="db-gee-dot"></span>
+        Tiles GEE: conecte <code>assets/gee/export_mosaics.js</code> para ativar mosaicos por período
+        <button class="db-gee-close" id="geeNoticeClose">×</button>
+      </div>
+    </div>
+
+    <div class="db-timeline-wrap">
+      <div class="db-tl-label" id="tlLabel">Período: <strong>2020_2</strong></div>
+      <div class="db-tl-center">
+        <input type="range" class="db-tl-slider" id="periodSlider" min="0" max="23" value="23" step="1">
+        <div class="db-tl-bounds">
+          <span>2000–2008</span>
+          <span>2020_2</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<section class="db-data-panel">
+  <div class="db-data-inner">
+    <div class="db-data-header">
+      <h2 class="db-data-title">Dados da região — <span id="dataRegionName">Bahia</span></h2>
+      <div class="db-data-period-tag" id="dataPeriodTag">Período: 2020_2</div>
+    </div>
+    <div class="db-stats-grid" id="statsGrid"></div>
+    <div class="db-chart-section">
+      <div class="db-chart-label">Qualidade do mosaico por período (2000–2020)</div>
+      <div class="db-quality-chart" id="qualityChart"></div>
+    </div>
+  </div>
+</section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/js/dashboard.js"></script>
+</body>
+</html>
