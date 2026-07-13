@@ -24,7 +24,7 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
       <fieldset><legend>Categoria</legend>{(["all", "critico", "estrategico"] as const).map((value) => <button className={category === value ? "active" : ""} onClick={() => setCategory(value)} key={value}>{value === "all" ? "Todas" : value === "critico" ? "Críticos" : "Estratégicos"}</button>)}</fieldset>
       <div className="sidebar-meta"><Layers3 size={17}/><div><strong>{occurrences.length}</strong><small>pontos visíveis</small></div></div>
       <div className="sidebar-meta"><MapPinned size={17}/><div><strong>{selectedRegion.name}</strong><small>{selectedRegion.areaKm2.toLocaleString("pt-BR")} km² analisados</small></div></div>
-      <div className="sidebar-source"><small>Fonte da sessão</small><strong>{initialData.source === "database" ? "PostgreSQL · PostGIS" : "Conjunto inicial validável"}</strong><span>Atualizado em {new Date(initialData.generatedAt).toLocaleString("pt-BR")}</span></div>
+      <div className="sidebar-source"><small>Fonte da sessão</small><strong>{initialData.source === "database" ? "PostgreSQL · PostGIS" : "Conjunto inicial validável"}</strong><span>Atualizado em {new Date(initialData.generatedAt).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}</span></div>
     </aside>
     <section className="dashboard-map"><MapView data={initialData} filteredIds={occurrences.map((o) => o.id)} period={period}/><div className="map-legend"><span><i className="critical"/>Crítico</span><span><i className="strategic"/>Estratégico</span><span><i className="hub"/>Base de pesquisa</span></div></section>
     <section className="dashboard-data">
