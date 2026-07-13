@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Activity,
   ArrowLeft,
@@ -21,8 +21,12 @@ import {
   Satellite,
   SlidersHorizontal,
   Sparkles,
+  UploadCloud,
+  UsersRound,
 } from "lucide-react";
+import { ContributionDialog } from "@/components/contribution-dialog";
 import { MapView, type BaseMap, type CompositeMode, type ImportedPoint } from "@/components/map-view";
+import type { CommunityLayer } from "@/lib/contributions";
 import { filterOccurrences } from "@/lib/dashboard-utils";
 import type { DashboardData } from "@/lib/types";
 import "@/app/dashboard/dashboard.css";
@@ -86,6 +90,9 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
   const [activePanel, setActivePanel] = useState<"explore" | "analyze">("explore");
   const [leftOpen, setLeftOpen] = useState(true);
   const [rightOpen, setRightOpen] = useState(true);
+  const [contributionOpen, setContributionOpen] = useState(false);
+  const [communityLayers, setCommunityLayers] = useState<CommunityLayer[]>([]);
+  const [showCommunity, setShowCommunity] = useState(true);
 
   const periods = useMemo(() => initialData.periods.filter((item) => item.cloudCoverage <= maxCloud), [initialData.periods, maxCloud]);
   const period = periods[Math.min(periodIndex, Math.max(periods.length - 1, 0))] ?? initialData.periods.at(-1)!;
@@ -94,6 +101,14 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
   const selectedSatellite = satellites.find((item) => item.id === satellite)!;
   const selectedComposite = composites.find((item) => item.id === composite)!;
   const minerals = new Set(occurrences.filter((item) => item.category !== "hub").map((item) => item.mineral)).size;
+
+  async function loadCommunityLayers() {
+    const response = await fetch("/api/contributions", { cache: "no-store" });
+    const body = await response.json() as { data?: CommunityLayer[] };
+    setCommunityLayers(body.data ?? []);
+  }
+
+  useEffect(() => { void loadCommunityLayers(); }, []);
 
   function applyImportedData() {
     try {
@@ -120,6 +135,7 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
       <Link href="/" className="geo-brand"><span>PROSPECTA</span><b>4.0</b></Link>
       <div className="geo-product"><span>GeoLab</span><small>Exploração mineral</small></div>
       <div className="geo-status"><i />{initialData.source === "database" ? "PostGIS conectado" : "Dados de demonstração"}</div>
+      <button className="contribute-button" onClick={() => setContributionOpen(true)}><UploadCloud size={15}/>Contribuir dados</button>
       <button className="header-action" onClick={resetWorkspace}><RotateCcw size={15}/>Redefinir</button>
       <div className="scene-chip"><Satellite size={14}/><span>{selectedSatellite.name}</span><b>{period.label}</b></div>
     </header>
@@ -169,7 +185,7 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
     </aside>
 
     <section className="geo-map-stage">
-      <MapView data={initialData} filteredIds={showOccurrences ? occurrences.map((item) => item.id) : []} period={period} region={selectedRegion} baseMap={baseMap} composite={composite} imageryOpacity={imageryOpacity / 100} showAnalysis={showAnalysis} analysisThreshold={analysisThreshold} analysisColor={analysisColor} analysisRadiusKm={analysisRadius} importedPoints={importedPoints}/>
+      <MapView data={initialData} filteredIds={showOccurrences ? occurrences.map((item) => item.id) : []} period={period} region={selectedRegion} baseMap={baseMap} composite={composite} imageryOpacity={imageryOpacity / 100} showAnalysis={showAnalysis} analysisThreshold={analysisThreshold} analysisColor={analysisColor} analysisRadiusKm={analysisRadius} importedPoints={importedPoints} communityLayers={communityLayers} showCommunity={showCommunity}/>
       <button className="panel-peek left" onClick={() => setLeftOpen((value) => !value)} aria-label="Alternar filtros"><PanelLeftClose size={17}/></button>
       <button className="panel-peek right" onClick={() => setRightOpen((value) => !value)} aria-label="Alternar informações"><PanelRightClose size={17}/></button>
       <div className="map-topbar">
@@ -188,10 +204,12 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
         <button className="layer-row active" onClick={() => setShowOccurrences((value) => !value)}><i className="layer-symbol points"/><div><strong>Ocorrências minerais</strong><small>{occurrences.length} feições</small></div>{showOccurrences ? <Eye size={15}/> : <EyeOff size={15}/>}</button>
         <button className="layer-row active"><i className="layer-symbol raster"/><div><strong>{selectedSatellite.name}</strong><small>{period.label} · {selectedComposite.bands}</small></div><Eye size={15}/></button>
         <button className={`layer-row ${showAnalysis ? "active" : ""}`} onClick={() => setShowAnalysis((value) => !value)}><i className="layer-symbol surface" style={{ background: analysisColor }}/><div><strong>Superfície analítica</strong><small>corte ≥ {analysisThreshold}</small></div>{showAnalysis ? <Eye size={15}/> : <EyeOff size={15}/>}</button>
+        <button className={`layer-row ${showCommunity ? "active" : ""}`} onClick={() => setShowCommunity((value) => !value)}><i className="layer-symbol community"><UsersRound size={14}/></i><div><strong>Dados da comunidade</strong><small>{communityLayers.length} contribuições públicas</small></div>{showCommunity ? <Eye size={15}/> : <EyeOff size={15}/>}</button>
       </section>
       <section className="scene-detail"><div className="right-title"><div><Satellite size={15}/><strong>Cena selecionada</strong></div><span className={`scene-status ${period.status}`}>{period.status === "ready" ? "pronta" : period.status}</span></div><dl><div><dt>Sensor</dt><dd>{selectedSatellite.sensor}</dd></div><div><dt>Período</dt><dd>{period.label}</dd></div><div><dt>Cenas</dt><dd>{period.sceneCount}</dd></div><div><dt>Nuvens</dt><dd>{period.cloudCoverage}%</dd></div></dl></section>
       <section className="period-control"><div><span>Linha do tempo</span><b>{period.label}</b></div><input aria-label="Período da imagem" type="range" min="0" max={Math.max(periods.length - 1, 0)} value={Math.min(periodIndex, Math.max(periods.length - 1, 0))} onChange={(event) => setPeriodIndex(Number(event.target.value))}/><div><small>{periods[0]?.label ?? "—"}</small><small>{periods.at(-1)?.label ?? "—"}</small></div></section>
       <footer className="data-provenance"><Database size={14}/><div><small>Fonte da sessão</small><strong>{initialData.source === "database" ? "PostgreSQL · PostGIS" : "Conjunto demonstrativo"}</strong><span>Atualizado em {new Date(initialData.generatedAt).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}</span></div></footer>
     </aside>
+    <ContributionDialog open={contributionOpen} onClose={() => setContributionOpen(false)} onCreated={() => { window.setTimeout(() => void loadCommunityLayers(), 800); }}/>
   </main>;
 }

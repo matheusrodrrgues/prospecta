@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { CommunityLayer } from "@/lib/contributions";
 import type { DashboardData, ImageryPeriod, Region } from "@/lib/types";
 
 export type BaseMap = "satellite" | "dark" | "terrain";
@@ -20,6 +21,8 @@ interface MapViewProps {
   analysisColor: string;
   analysisRadiusKm: number;
   importedPoints: ImportedPoint[];
+  communityLayers: CommunityLayer[];
+  showCommunity: boolean;
 }
 
 const baseLayers: BaseMap[] = ["satellite", "dark", "terrain"];
@@ -53,7 +56,7 @@ function pointsGeoJson(points: ImportedPoint[]) {
   return { type: "FeatureCollection" as const, features: points.map((point) => ({ type: "Feature" as const, properties: { id: point.id, value: point.score, label: point.label }, geometry: { type: "Point" as const, coordinates: [point.longitude, point.latitude] } })) };
 }
 
-export function MapView({ data, filteredIds, period, region, baseMap, composite, imageryOpacity, showAnalysis, analysisThreshold, analysisColor, analysisRadiusKm, importedPoints }: MapViewProps) {
+export function MapView({ data, filteredIds, period, region, baseMap, composite, imageryOpacity, showAnalysis, analysisThreshold, analysisColor, analysisRadiusKm, importedPoints, communityLayers, showCommunity }: MapViewProps) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<import("maplibre-gl").Map | null>(null);
   const [ready, setReady] = useState(false);
@@ -93,12 +96,16 @@ export function MapView({ data, filteredIds, period, region, baseMap, composite,
         map.addSource("imported-data", { type: "geojson", data: pointsGeoJson([]) });
         map.addLayer({ id: "imported-glow", type: "circle", source: "imported-data", paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 8, 10, analysisRadiusKm], "circle-color": analysisColor, "circle-opacity": .22, "circle-blur": .35 }, filter: [">=", ["get", "value"], analysisThreshold] });
         map.addLayer({ id: "imported-data", type: "circle", source: "imported-data", paint: { "circle-radius": 5, "circle-color": analysisColor, "circle-stroke-color": "#fff", "circle-stroke-width": 1, "circle-opacity": .95 }, filter: [">=", ["get", "value"], analysisThreshold] });
+        map.addSource("community-data", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+        map.addLayer({ id: "community-glow", type: "circle", source: "community-data", paint: { "circle-radius": 15, "circle-color": "#65d7c0", "circle-opacity": .18, "circle-blur": .25 } });
+        map.addLayer({ id: "community-data", type: "circle", source: "community-data", paint: { "circle-radius": 6, "circle-color": "#65d7c0", "circle-stroke-color": "#f3fff9", "circle-stroke-width": 1.5 } });
         map.addSource("occurrences", { type: "geojson", data: { type: "FeatureCollection", features: data.occurrences.map((item) => ({ type: "Feature", geometry: { type: "Point", coordinates: item.coordinates }, properties: { ...item } })) } });
         map.addLayer({ id: "occurrence-glow", type: "circle", source: "occurrences", paint: { "circle-radius": 16, "circle-color": ["match", ["get", "category"], "critico", "#e2b56e", "estrategico", "#b9dc6b", "#f4f0e5"], "circle-opacity": .16, "circle-blur": .2 } });
         map.addLayer({ id: "occurrences", type: "circle", source: "occurrences", paint: { "circle-radius": 6, "circle-stroke-width": 2, "circle-stroke-color": "#111914", "circle-color": ["match", ["get", "category"], "critico", "#e2b56e", "estrategico", "#b9dc6b", "#f4f0e5"] } });
         map.on("click", "occurrences", (event) => { const feature = event.features?.[0]; if (!feature) return; const coordinates = (feature.geometry as GeoJSON.Point).coordinates as [number, number]; new maplibregl.Popup({ offset: 12 }).setLngLat(coordinates).setHTML(`<div class="geo-popup"><small>${feature.properties?.category}</small><strong>${feature.properties?.name}</strong><span>${feature.properties?.mineral}</span><p>${feature.properties?.description ?? feature.properties?.status}</p></div>`).addTo(map); });
         map.on("click", "imported-data", (event) => { const feature = event.features?.[0]; if (!feature) return; const coordinates = (feature.geometry as GeoJSON.Point).coordinates as [number, number]; new maplibregl.Popup({ offset: 10 }).setLngLat(coordinates).setHTML(`<div class="geo-popup"><small>Dado importado</small><strong>${feature.properties?.label}</strong><span>Valor ${feature.properties?.value}</span></div>`).addTo(map); });
-        ["occurrences", "imported-data"].forEach((layer) => { map.on("mouseenter", layer, () => { map.getCanvas().style.cursor = "pointer"; }); map.on("mouseleave", layer, () => { map.getCanvas().style.cursor = ""; }); });
+        map.on("click", "community-data", (event) => { const feature = event.features?.[0]; if (!feature) return; const coordinates = (feature.geometry as GeoJSON.Point).coordinates as [number, number]; new maplibregl.Popup({ offset: 10 }).setLngLat(coordinates).setHTML(`<div class="geo-popup community"><small>Contribuição comunitária</small><strong>${feature.properties?.title}</strong><span>${feature.properties?.contributor}</span><p>Não verificado · ${feature.properties?.license}</p></div>`).addTo(map); });
+        ["occurrences", "imported-data", "community-data"].forEach((layer) => { map.on("mouseenter", layer, () => { map.getCanvas().style.cursor = "pointer"; }); map.on("mouseleave", layer, () => { map.getCanvas().style.cursor = ""; }); });
         setReady(true);
       });
       mapRef.current = map;
@@ -158,6 +165,25 @@ export function MapView({ data, filteredIds, period, region, baseMap, composite,
     if (!ready || !map) return;
     (map.getSource("imported-data") as import("maplibre-gl").GeoJSONSource).setData(pointsGeoJson(importedPoints));
   }, [importedPoints, ready]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!ready || !map) return;
+    const features = communityLayers.flatMap((layer) => (layer.geojson?.features ?? []).filter((feature) => feature.geometry?.type === "Point").map((feature) => ({ ...feature, properties: { ...(feature.properties ?? {}), submissionId: layer.id, title: layer.title, contributor: layer.organization || layer.contributorName, license: layer.license, status: layer.status } })));
+    (map.getSource("community-data") as import("maplibre-gl").GeoJSONSource).setData({ type: "FeatureCollection", features } as GeoJSON.FeatureCollection);
+    map.setLayoutProperty("community-data", "visibility", showCommunity ? "visible" : "none");
+    map.setLayoutProperty("community-glow", "visibility", showCommunity ? "visible" : "none");
+    for (let index = 0; index < 5; index += 1) {
+      const layerId = `community-raster-${index}`, sourceId = `community-raster-source-${index}`;
+      if (map.getLayer(layerId)) map.removeLayer(layerId);
+      if (map.getSource(sourceId)) map.removeSource(sourceId);
+    }
+    if (showCommunity) communityLayers.filter((layer) => layer.tileUrl).slice(0, 5).forEach((layer, index) => {
+      const sourceId = `community-raster-source-${index}`, layerId = `community-raster-${index}`;
+      map.addSource(sourceId, { type: "raster", tiles: [layer.tileUrl!], tileSize: 256 });
+      map.addLayer({ id: layerId, type: "raster", source: sourceId, paint: { "raster-opacity": .62 } }, "community-glow");
+    });
+  }, [communityLayers, showCommunity, ready]);
 
   useEffect(() => {
     const map = mapRef.current;
