@@ -29,7 +29,7 @@ async function queryPublishedPosts(): Promise<Post[]> {
   }));
 }
 
-export const getPublishedPosts = unstable_cache(queryPublishedPosts, ["posts"], { revalidate: 300, tags: ["posts"] });
+export const getPublishedPosts = unstable_cache(queryPublishedPosts, ["posts-v2"], { revalidate: 300, tags: ["posts"] });
 
 export async function getPostBySlug(slug: string) {
   const posts = await getPublishedPosts();
@@ -56,4 +56,4 @@ async function queryDashboard(): Promise<DashboardData> {
   };
 }
 
-export const getDashboardData = unstable_cache(queryDashboard, ["dashboard"], { revalidate: 900, tags: ["dashboard"] });
+export const getDashboardData = unstable_cache(queryDashboard, ["dashboard-v2"], { revalidate: 900, tags: ["dashboard"] });
