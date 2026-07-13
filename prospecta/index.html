@@ -19,21 +19,32 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700;1,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/index.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
 
-<nav>
-  <a href="#hero" class="nav-logo" aria-label="Prospecta 4.0">
-    PROSPECTA <span class="nav-logo-pill">4.0</span>
+<header class="mobile-header">
+  <a href="#hero" class="mh-brand">PROSPECTA <span>4.0</span></a>
+  <a href="#contato" class="mh-cta">Acompanhe</a>
+</header>
+
+<nav class="sidenav">
+  <a href="#hero" class="snav-brand">
+    <span class="snav-initial">P</span>
+    <span class="snav-ver">4.0</span>
   </a>
-  <ul>
-    <li><a href="#sobre">Sobre</a></li>
-    <li><a href="#minerais">Minerais</a></li>
-    <li><a href="#tecnologias">Tecnologias</a></li>
-    <li><a href="#rede">Rede</a></li>
-    <li><a href="#contato">Contato</a></li>
+  <ul class="snav-list">
+    <li><a href="#sobre"         class="snav-link" data-tip="Sobre">S</a></li>
+    <li><a href="#minerais"      class="snav-link" data-tip="Minerais">M</a></li>
+    <li><a href="#tecnologias"   class="snav-link" data-tip="Tecnologias">T</a></li>
+    <li><a href="#publicacoes"   class="snav-link" data-tip="Publicações">P</a></li>
+    <li><a href="#noticias"      class="snav-link" data-tip="Notícias">N</a></li>
+    <li><a href="#dashboard"     class="snav-link" data-tip="Dashboard">D</a></li>
+    <li><a href="#equipe"        class="snav-link" data-tip="Equipe">E</a></li>
+    <li><a href="#rede"          class="snav-link" data-tip="Rede">R</a></li>
+    <li><a href="#contato"       class="snav-link" data-tip="Contato">C</a></li>
   </ul>
-  <a href="#contato" class="nav-cta">Acompanhe</a>
+  <a href="#contato" class="snav-cta">→</a>
 </nav>
 
 <main>
@@ -71,6 +82,8 @@
         </div>
       </div>
     </div>
+  </section>
+
   </section>
 
   <div class="strip">
@@ -143,6 +156,7 @@
 
       <div class="minerais-grid reveal" style="animation-delay:0.1s">
         <article class="mineral-card">
+          <div class="mineral-img" style="background-image:url('assets/img/img1.jpg')"></div>
           <div class="card-topline">Minerais estratégicos</div>
           <h3>Fosfato, lítio, cobre, níquel e tântalo</h3>
           <p>
@@ -150,6 +164,7 @@
           </p>
         </article>
         <article class="mineral-card">
+          <div class="mineral-img" style="background-image:url('assets/img/img2.jpg')"></div>
           <div class="card-topline">Minerais críticos</div>
           <h3>Terras-raras, cobalto, gálio, grafite e índio</h3>
           <p>
@@ -218,6 +233,169 @@
 
   <div class="divider"></div>
 
+  <section id="publicacoes">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="section-label">Publicações</div>
+        <h2 class="section-h2">Pesquisa publicada no SimeXmin 2025.</h2>
+        <p class="section-lead">Trabalhos do Prospecta 4.0 apresentados no XII Simpósio Brasileiro de Exploração Mineral, em parceria com a ADIMB.</p>
+      </div>
+      <div class="blog-grid reveal" style="animation-delay:0.1s">
+
+        <article class="blog-card" data-id="pub1">
+          <div class="blog-card-head">
+            <span class="blog-src">XII SimeXmin · 2025</span>
+            <span class="blog-ref">AT1-01-189</span>
+          </div>
+          <h3 class="blog-card-title">Fosfogênese Proterozoica do Cráton do São Francisco</h3>
+          <div class="blog-card-tags">
+            <span>Fosfogênese</span><span>Proterozoico</span><span>Bahia</span>
+          </div>
+          <div class="blog-card-more">Ver publicação →</div>
+        </article>
+
+        <article class="blog-card" data-id="pub2">
+          <div class="blog-card-head">
+            <span class="blog-src">XII SimeXmin · 2025</span>
+            <span class="blog-ref">AT1-01-190</span>
+          </div>
+          <h3 class="blog-card-title">Granitoides e Mineralização de Apatita em Skarn — Complexo Tanque Novo, Ipirá</h3>
+          <div class="blog-card-tags">
+            <span>Petrografia</span><span>Skarn</span><span>Apatita</span>
+          </div>
+          <div class="blog-card-more">Ver publicação →</div>
+        </article>
+
+        <article class="blog-card" data-id="pub3">
+          <div class="blog-card-head">
+            <span class="blog-src">XII SimeXmin · 2025</span>
+            <span class="blog-ref">AT1-01-191</span>
+          </div>
+          <h3 class="blog-card-title">Predição de Fosforita — Formação Salitre, Sub-Bacia de Irecê</h3>
+          <div class="blog-card-tags">
+            <span>Estratigrafia</span><span>Fosforita</span><span>Irecê</span>
+          </div>
+          <div class="blog-card-more">Ver publicação →</div>
+        </article>
+
+      </div>
+      <div class="blog-ver-link reveal" style="animation-delay:0.2s">
+        <a href="blog.html?f=publicacao" class="blog-ver-btn">Ver todas as publicações →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="noticias">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="section-label">Contexto & Notícias</div>
+        <h2 class="section-h2">O Brasil no centro do debate sobre minerais críticos.</h2>
+        <p class="section-lead">Acompanhe o que acontece no mundo e como isso se conecta à pesquisa do Prospecta 4.0.</p>
+      </div>
+      <div class="blog-grid blog-grid-2 reveal" style="animation-delay:0.1s">
+
+        <article class="blog-card blog-card-news" data-id="news1">
+          <div class="blog-card-head">
+            <span class="blog-src">G1 · Globo</span>
+            <span class="blog-ref">07 Mai 2026</span>
+          </div>
+          <h3 class="blog-card-title">Lula e Trump discutem potencial brasileiro em terras raras e minerais críticos</h3>
+          <div class="blog-card-tags">
+            <span>Terras-raras</span><span>Política mineral</span><span>Brasil</span>
+          </div>
+          <div class="blog-card-more">Ler notícia →</div>
+        </article>
+
+        <article class="blog-card blog-card-news" data-id="news2">
+          <div class="blog-card-head">
+            <span class="blog-src">Prospecta 4.0</span>
+            <span class="blog-ref">Contexto</span>
+          </div>
+          <h3 class="blog-card-title">A pesquisa que antecipa o que o mundo vai precisar</h3>
+          <div class="blog-card-tags">
+            <span>Prospecta 4.0</span><span>Minerais críticos</span>
+          </div>
+          <div class="blog-card-more">Ler mais →</div>
+        </article>
+
+      </div>
+      <div class="blog-ver-link reveal" style="animation-delay:0.2s">
+        <a href="blog.html" class="blog-ver-btn blog-ver-btn-news">Ver blog completo →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="dashboard">
+    <div class="dash-section">
+      <div class="dash-inner">
+        <div class="section-header reveal">
+          <div class="dash-label-row">
+            <div class="section-label">Dashboard Mineral</div>
+            <span class="sim-badge">DEMO</span>
+          </div>
+          <h2 class="section-h2">Mapeamento de áreas com potencial mineral na Bahia.</h2>
+          <p class="section-lead">Dados exploratórios integrados de regiões com ocorrência de minerais estratégicos e críticos no estado da Bahia.</p>
+        </div>
+        <div class="dash-body reveal" style="animation-delay:0.1s">
+          <aside class="dash-sidebar">
+            <div class="dash-stats-row">
+              <div class="dash-stat">
+                <span class="dash-val">7</span>
+                <span class="dash-label">Áreas</span>
+              </div>
+              <div class="dash-stat">
+                <span class="dash-val">5</span>
+                <span class="dash-label">Minerais</span>
+              </div>
+              <div class="dash-stat">
+                <span class="dash-val">BA</span>
+                <span class="dash-label">Estado</span>
+              </div>
+            </div>
+            <div class="dash-filters">
+              <div class="dash-filters-label">Filtrar por tipo</div>
+              <button class="mfilter-btn active" data-filter="todos">Todos</button>
+              <button class="mfilter-btn" data-filter="estrategico">Estratégicos</button>
+              <button class="mfilter-btn" data-filter="critico">Críticos</button>
+            </div>
+            <div class="dash-legend">
+              <div class="legend-item"><span class="legend-dot" style="background:#b7d36b"></span>Estratégico</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#c7a46a"></span>Crítico</div>
+            </div>
+            <div class="dash-info" id="map-info">
+              <div class="info-kicker" id="info-mineral">Selecione uma área</div>
+              <div class="info-name" id="info-name">Clique em um marcador</div>
+              <div class="info-meta">
+                <span class="info-badge" id="info-type">—</span>
+                <span class="info-status" id="info-status">—</span>
+              </div>
+              <p class="info-desc" id="info-desc">Os marcadores no mapa representam áreas com ocorrência ou potencial para minerais estratégicos e críticos.</p>
+            </div>
+          </aside>
+          <div class="dash-map-wrap">
+            <div id="mineral-map"></div>
+            <div class="map-overlay-label">
+              <span class="map-ol-dot"></span> Prospecta 4.0 · Dados exploratórios
+            </div>
+          </div>
+        </div>
+        <div class="dash-full-link reveal" style="animation-delay:0.2s">
+          <a href="dashboard.html" class="dash-full-btn">
+            Abrir Dashboard Completo
+            <span class="dash-full-arr">→</span>
+          </a>
+          <span class="dash-full-desc">Filtros por região · Slider temporal 2000–2020 · Mosaicos GEE · Análise por período</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
   <section id="rede">
     <div class="section">
       <div class="section-header reveal">
@@ -243,6 +421,71 @@
 
   <div class="divider"></div>
 
+  <section id="equipe">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="section-label">Time</div>
+        <h2 class="section-h2">Equipe multidisciplinar organizada por frentes de trabalho.</h2>
+        <p class="section-lead">Pesquisadores, desenvolvedores, analistas e especialistas atuando de forma colaborativa.</p>
+      </div>
+      <div class="team-groups reveal" style="animation-delay:0.1s">
+
+        <div class="team-group">
+          <div class="tgroup-label">Coordenação</div>
+          <div class="team-card">
+            <div class="team-avatar av-1">SG</div>
+            <div class="team-name">Soltan Galano</div>
+            <div class="team-role">Coordenador · Responsável técnico</div>
+            <div class="team-inst">UEFS · LAPIG</div>
+          </div>
+        </div>
+
+        <div class="team-group">
+          <div class="tgroup-label">Devs & Analistas de Dados</div>
+          <div class="team-card">
+            <div class="team-avatar av-2" style="background-image:url('assets/img/matheus.jpg')"></div>
+            <div class="team-name">Matheus Rodrigues</div>
+            <div class="team-role">Bolsista · Dev & Dados</div>
+            <div class="team-inst">UEFS</div>
+            <a class="team-linkedin" href="https://www.linkedin.com/in/matheusrodrrgues/" target="_blank" rel="noopener">LinkedIn →</a>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar av-3" style="background-image:url('assets/img/mailson.jpg')"></div>
+            <div class="team-name">Mailson</div>
+            <div class="team-role">Bolsista · Dev & Dados</div>
+            <div class="team-inst">UEFS</div>
+            <a class="team-linkedin" href="https://www.linkedin.com/in/mailsonalveso/" target="_blank" rel="noopener">LinkedIn →</a>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar av-4" style="background-image:url('assets/img/lazaro.jpg')"></div>
+            <div class="team-name">Lázaro Pinheiro de Brito</div>
+            <div class="team-role">Bolsista · Dev & Dados</div>
+            <div class="team-inst">UEFS</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar av-1" style="background-image:url('assets/img/yago.jpg')"></div>
+            <div class="team-name">Yago Mendes de Araujo</div>
+            <div class="team-role">Bolsista · Dev & Dados</div>
+            <div class="team-inst">UEFS</div>
+          </div>
+        </div>
+
+        <div class="team-group">
+          <div class="tgroup-label">Especialistas</div>
+          <div class="tgroup-empty">A definir</div>
+        </div>
+
+        <div class="team-group">
+          <div class="tgroup-label">Comunicação</div>
+          <div class="tgroup-empty">A definir</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
   <section id="contato">
     <div class="section contato-section">
       <div class="section-header reveal">
@@ -262,7 +505,7 @@
           <div class="c-links">
             <div class="c-link-row">
               <span class="c-icon">Email</span>
-              <span>Contato institucional</span>
+              <span>contato@prospecta40.com</span>
             </div>
             <div class="c-link-row">
               <span class="c-icon">Local</span>
@@ -298,7 +541,7 @@
 
 <footer>
   <div class="f-left">PROSPECTA 4.0</div>
-  <div class="f-copy">© 2026 Prospecta 4.0</div>
+  <div class="f-copy">© 2026 Prospecta 4.0 - www.prospecta40.com</div>
   <div class="f-links">
     <a href="#sobre">Sobre</a>
     <a href="#minerais">Minerais</a>
@@ -306,6 +549,14 @@
   </div>
 </footer>
 
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox" role="dialog" aria-modal="true">
+    <button class="modal-close" id="modalClose" aria-label="Fechar">×</button>
+    <div id="modalInner"></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="assets/js/index.js"></script>
 </body>
 </html>

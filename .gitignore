@@ -1,0 +1,16 @@
+node_modules/
+.next/
+out/
+.vercel/
+.claude/
+.env
+.env.local
+.env.*.local
+!.env.example
+coverage/
+playwright-report/
+test-results/
+public/legacy/
+*.tsbuildinfo
+geospatial/.venv/
+geospatial/__pycache__/
