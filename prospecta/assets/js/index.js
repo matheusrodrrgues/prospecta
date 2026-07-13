@@ -24,8 +24,45 @@ sections.forEach(function(s) { secObs.observe(s); });
 
 var contactForm = document.querySelector('.form-box');
 if (contactForm) {
-	contactForm.addEventListener('submit', function(event) {
+	contactForm.addEventListener('submit', async function(event) {
 		event.preventDefault();
+		var submitButton = contactForm.querySelector('.btn-submit');
+		var feedback = contactForm.querySelector('.form-feedback');
+		var formData = new FormData(contactForm);
+		var institution = String(formData.get('institution') || '').trim();
+		var interest = String(formData.get('interest') || 'Contato').trim();
+		var message = String(formData.get('message') || '').trim();
+
+		submitButton.disabled = true;
+		submitButton.textContent = 'Enviando...';
+		feedback.textContent = '';
+		feedback.classList.remove('success', 'error');
+
+		try {
+			var response = await fetch('/api/contact', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name: String(formData.get('name') || ''),
+					email: String(formData.get('email') || ''),
+					subject: interest,
+					message: institution ? 'Instituição: ' + institution + '\n\n' + message : message,
+					website: String(formData.get('website') || '')
+				})
+			});
+			var result = await response.json().catch(function() { return {}; });
+			if (!response.ok) throw new Error(result.error || 'Não foi possível enviar a mensagem.');
+
+			contactForm.reset();
+			feedback.textContent = 'Mensagem enviada. Obrigado pelo contato!';
+			feedback.classList.add('success');
+		} catch (error) {
+			feedback.textContent = error.message || 'Não foi possível enviar a mensagem.';
+			feedback.classList.add('error');
+		} finally {
+			submitButton.disabled = false;
+			submitButton.textContent = 'Enviar mensagem';
+		}
 	});
 }
 

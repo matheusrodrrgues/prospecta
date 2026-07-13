@@ -280,7 +280,7 @@
 
       </div>
       <div class="blog-ver-link reveal" style="animation-delay:0.2s">
-        <a href="blog.html?f=publicacao" class="blog-ver-btn">Ver todas as publicações →</a>
+        <a href="/blog?f=publicacao" class="blog-ver-btn">Ver todas as publicações →</a>
       </div>
     </div>
   </section>
@@ -322,7 +322,7 @@
 
       </div>
       <div class="blog-ver-link reveal" style="animation-delay:0.2s">
-        <a href="blog.html" class="blog-ver-btn blog-ver-btn-news">Ver blog completo →</a>
+        <a href="/blog" class="blog-ver-btn blog-ver-btn-news">Ver blog completo →</a>
       </div>
     </div>
   </section>
@@ -384,7 +384,7 @@
           </div>
         </div>
         <div class="dash-full-link reveal" style="animation-delay:0.2s">
-          <a href="dashboard.html" class="dash-full-btn">
+          <a href="/dashboard" class="dash-full-btn">
             Abrir Dashboard Completo
             <span class="dash-full-arr">→</span>
           </a>
@@ -516,13 +516,13 @@
 
         <form class="form-box">
           <div class="fg-2">
-            <div class="fg"><label for="nome">Nome</label><input id="nome" type="text" placeholder="Seu nome"></div>
-            <div class="fg"><label for="instituicao">Instituição</label><input id="instituicao" type="text" placeholder="Universidade ou empresa"></div>
+            <div class="fg"><label for="nome">Nome</label><input id="nome" name="name" type="text" placeholder="Seu nome" required></div>
+            <div class="fg"><label for="instituicao">Instituição</label><input id="instituicao" name="institution" type="text" placeholder="Universidade ou empresa"></div>
           </div>
-          <div class="fg"><label for="email">E-mail</label><input id="email" type="email" placeholder="seu@email.com"></div>
+          <div class="fg"><label for="email">E-mail</label><input id="email" name="email" type="email" placeholder="seu@email.com" required></div>
           <div class="fg">
             <label for="interesse">Interesse</label>
-            <select id="interesse">
+            <select id="interesse" name="interest" required>
               <option value="" disabled selected>Selecione...</option>
               <option>Pesquisa científica</option>
               <option>Parceria institucional</option>
@@ -531,8 +531,10 @@
               <option>Outro</option>
             </select>
           </div>
-          <div class="fg"><label for="mensagem">Mensagem</label><textarea id="mensagem" rows="4" placeholder="Conte como deseja colaborar..."></textarea></div>
+          <div class="fg"><label for="mensagem">Mensagem</label><textarea id="mensagem" name="message" rows="4" minlength="10" placeholder="Conte como deseja colaborar..." required></textarea></div>
+          <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
           <button class="btn-submit" type="submit">Enviar mensagem</button>
+          <p class="form-feedback" role="status" aria-live="polite"></p>
         </form>
       </div>
     </div>

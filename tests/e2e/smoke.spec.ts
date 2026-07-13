@@ -2,8 +2,8 @@ import { expect, test } from "@playwright/test";
 
 test("public experience is available", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: /futuro mineral/i })).toBeVisible();
-  await page.getByRole("link", { name: /explorar o dashboard/i }).click();
+  await expect(page.getByRole("heading", { name: /prospecta 4\.0/i })).toBeVisible();
+  await page.getByRole("link", { name: /abrir dashboard completo/i }).click();
   await expect(page.getByText("Dashboard Mineral")).toBeVisible();
 });
 

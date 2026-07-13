@@ -1871,3 +1871,13 @@ footer {
 	.hero-panel { display: none; }
 	.hero-section { min-height: auto; padding-bottom: 48px; }
 }
+.form-feedback {
+  min-height: 1.25rem;
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.form-feedback.success { color: var(--green); }
+.form-feedback.error { color: #ef9a8d; }
+.btn-submit:disabled { cursor: wait; opacity: .65; }
