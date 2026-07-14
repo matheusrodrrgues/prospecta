@@ -10,7 +10,7 @@ type SubmissionResult = { id: string; protocol: string; status: string; setupMod
 
 const initialForm = {
   title: "", contributorName: "", contributorEmail: "", organization: "", datasetType: "inline" as DatasetType,
-  periodLabel: "", satellite: "Landsat 8/9", methodology: "", license: "CC-BY-4.0", reviewUrl: "", externalUrl: "",
+  periodLabel: "", satellite: "Sentinel-2", methodology: "", license: "CC-BY-4.0", reviewUrl: "", externalUrl: "",
   inlineData: "", website: "", termsAccepted: false,
 };
 
@@ -109,7 +109,7 @@ export function ContributionDialog({ open, onClose, onCreated }: { open: boolean
           <label>E-mail<input type="email" value={form.contributorEmail} onChange={(event) => update("contributorEmail", event.target.value)} placeholder="contato@instituicao.br"/></label>
           <label>Instituição<input value={form.organization} onChange={(event) => update("organization", event.target.value)} placeholder="Opcional"/></label>
           <label>Período<input value={form.periodLabel} onChange={(event) => update("periodLabel", event.target.value)} placeholder="2020_2"/></label>
-          <label>Satélite<select value={form.satellite} onChange={(event) => update("satellite", event.target.value)}><option>Landsat 8/9</option><option>Sentinel-2</option><option>CBERS-4A</option><option>Outro</option></select></label>
+          <label>Satélite<select value={form.satellite} onChange={(event) => update("satellite", event.target.value)}><option>ASTER</option><option>Sentinel-2</option><option>Sentinel-1</option><option>Outro</option></select></label>
           <label>Licença<select value={form.license} onChange={(event) => update("license", event.target.value)}><option value="CC-BY-4.0">CC BY 4.0</option><option value="CC-BY-SA-4.0">CC BY-SA 4.0</option><option value="CC0-1.0">CC0</option><option value="restrita">Uso restrito</option></select></label>
           <label className="wide">Como o dado foi produzido?<textarea value={form.methodology} onChange={(event) => update("methodology", event.target.value)} placeholder="Descreva fonte, processamento, bandas, resolução, correções e limitações..."/></label>
           <label className="wide">Link para código ou documentação<input type="url" value={form.reviewUrl} onChange={(event) => update("reviewUrl", event.target.value)} placeholder="https://code.earthengine.google.com/..."/></label>

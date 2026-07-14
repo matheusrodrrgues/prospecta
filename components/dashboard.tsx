@@ -32,9 +32,9 @@ import type { DashboardData } from "@/lib/types";
 import "@/app/dashboard/dashboard.css";
 
 const satellites = [
+  { id: "aster", name: "ASTER", sensor: "VNIR/SWIR", resolution: "15–30 m", revisit: "16 dias", color: "#e2b56e" },
   { id: "sentinel-2", name: "Sentinel-2", sensor: "MSI", resolution: "10 m", revisit: "5 dias", color: "#b9dc6b" },
-  { id: "landsat-9", name: "Landsat 8/9", sensor: "OLI-2", resolution: "30 m", revisit: "16 dias", color: "#e2b56e" },
-  { id: "cbers-4a", name: "CBERS-4A", sensor: "WPM", resolution: "8 m", revisit: "31 dias", color: "#74b7a3" },
+  { id: "sentinel-1", name: "Sentinel-1", sensor: "SAR · Banda C", resolution: "5×20 m", revisit: "6 dias", color: "#74b7a3" },
 ] as const;
 
 const composites: Array<{ id: CompositeMode; label: string; bands: string; description: string }> = [
@@ -76,7 +76,6 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
   const [satellite, setSatellite] = useState<(typeof satellites)[number]["id"]>("sentinel-2");
   const [composite, setComposite] = useState<CompositeMode>("natural");
   const [baseMap, setBaseMap] = useState<BaseMap>("satellite");
-  const [maxCloud, setMaxCloud] = useState(30);
   const [periodIndex, setPeriodIndex] = useState(initialData.periods.length - 1);
   const [imageryOpacity, setImageryOpacity] = useState(72);
   const [showOccurrences, setShowOccurrences] = useState(true);
@@ -94,7 +93,7 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
   const [communityLayers, setCommunityLayers] = useState<CommunityLayer[]>([]);
   const [showCommunity, setShowCommunity] = useState(true);
 
-  const periods = useMemo(() => initialData.periods.filter((item) => item.cloudCoverage <= maxCloud), [initialData.periods, maxCloud]);
+  const periods = initialData.periods;
   const period = periods[Math.min(periodIndex, Math.max(periods.length - 1, 0))] ?? initialData.periods.at(-1)!;
   const occurrences = useMemo(() => filterOccurrences(initialData.occurrences, region, category), [initialData.occurrences, region, category]);
   const selectedRegion = initialData.regions.find((item) => item.slug === region) ?? initialData.regions[0];
@@ -124,7 +123,7 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
 
   function resetWorkspace() {
     setRegion("all"); setCategory("all"); setSatellite("sentinel-2"); setComposite("natural");
-    setBaseMap("satellite"); setMaxCloud(30); setPeriodIndex(initialData.periods.length - 1);
+    setBaseMap("satellite"); setPeriodIndex(initialData.periods.length - 1);
     setImageryOpacity(72); setShowOccurrences(true); setShowAnalysis(true); setAnalysisThreshold(68);
     setAnalysisColor("#b9dc6b"); setAnalysisRadius(24); setImportedPoints([]); setDataText(""); setImportError("");
   }
@@ -156,8 +155,6 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
         <section className="control-section">
           <div className="control-title"><span>02</span><div><strong>Catálogo orbital</strong><small>Escolha o sensor e a cena</small></div></div>
           <div className="satellite-list">{satellites.map((item) => <button key={item.id} className={satellite === item.id ? "active" : ""} onClick={() => setSatellite(item.id)}><i style={{ background: item.color }}/><div><strong>{item.name}</strong><small>{item.sensor} · {item.resolution}</small></div>{satellite === item.id && <Check size={15}/>}</button>)}</div>
-          <label className="range-label"><span>Nuvens máximas <b>{maxCloud}%</b></span><input type="range" min="0" max="100" value={maxCloud} onChange={(event) => { setMaxCloud(Number(event.target.value)); setPeriodIndex(0); }}/></label>
-          <div className="catalog-result"><Database size={14}/><span><b>{periods.length}</b> mosaicos compatíveis</span></div>
         </section>
 
         <section className="control-section">
