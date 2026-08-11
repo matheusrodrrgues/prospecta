@@ -11,6 +11,7 @@ Plataforma web, editorial e geoespacial do Prospecta 4.0. O aplicativo reúne si
 - **Mídia editorial:** Vercel Blob.
 - **Imagens orbitais:** Earth Engine, Cloud Run Jobs e Google Cloud Storage.
 - **Observabilidade:** Vercel Analytics, Speed Insights e registros de execução no Postgres.
+- **Radar mineral:** feeds especializados, deduplicação, tradução/resumo por IA e curadoria temática.
 
 O protótipo HTML original permanece em `prospecta/`. Durante `dev` e `build`, seus ativos são copiados para `public/legacy` para preservar o acervo original enquanto a aplicação nova evolui.
 
@@ -74,6 +75,8 @@ As tabelas originais permanecem protegidas por RLS. Alterações em conteúdo e 
 
 O cron da Vercel chama `/api/cron/sync` com `Authorization: Bearer $CRON_SECRET`. Essa rota registra uma execução e chama o launcher da pipeline no Cloud Run.
 
+O Radar em `/radar` usa as fontes RSS cadastradas em `news_sources`. O cron `/api/cron/news` coleta apenas metadados e trechos oferecidos pelos feeds, elimina URLs repetidas e usa a Responses API com saída estruturada para traduzir, resumir e classificar cada card. Configure `OPENAI_API_KEY`; `OPENAI_NEWS_MODEL` permite trocar o modelo sem alterar código. Cada card preserva o link para a matéria original.
+
 ## Pipeline geoespacial
 
 O diretório `geospatial/` produz uma imagem Docker com dois modos:
@@ -112,6 +115,7 @@ Para tiles dinâmicos de COG, configure `TITILER_BASE_URL` apontando para uma in
 | POST | `/api/contact` | Mensagens com validação, honeypot e limite por IP hash |
 | POST | `/api/admin/upload` | Upload autenticado de imagens/PDFs até 20 MB |
 | GET | `/api/cron/sync` | Disparo autenticado da pipeline |
+| GET | `/api/cron/news` | Coleta autenticada do Radar Mineral |
 
 ## Operação
 

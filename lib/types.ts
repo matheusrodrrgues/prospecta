@@ -17,6 +17,22 @@ export interface Post {
   featured?: boolean;
 }
 
+export type NewsCategory = "mercado" | "tecnologia" | "sustentabilidade" | "politica" | "exploracao";
+
+export interface NewsItem {
+  id: string;
+  title: string;
+  summary: string;
+  source: string;
+  sourceUrl: string;
+  imageUrl?: string | null;
+  publishedAt: string;
+  category: NewsCategory;
+  minerals: string[];
+  keywords: string[];
+  relevance: number;
+}
+
 export interface Region {
   id: string;
   slug: string;

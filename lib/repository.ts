@@ -1,7 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { seedDashboard, seedPosts } from "@/lib/seed";
-import type { DashboardData, Post } from "@/lib/types";
+import { seedDashboard, seedNews, seedPosts } from "@/lib/seed";
+import type { DashboardData, NewsItem, Post } from "@/lib/types";
 
 async function queryPublishedPosts(): Promise<Post[]> {
   const db = createSupabaseAdminClient();
@@ -35,6 +35,31 @@ export async function getPostBySlug(slug: string) {
   const posts = await getPublishedPosts();
   return posts.find((post) => post.slug === slug) ?? null;
 }
+
+async function queryPublishedNews(): Promise<NewsItem[]> {
+  const db = createSupabaseAdminClient();
+  if (!db) return seedNews;
+  const { data, error } = await db.from("news_items_public").select("*").order("published_at", { ascending: false }).limit(60);
+  if (error) {
+    console.error("Could not load news radar:", error.message);
+    return seedNews;
+  }
+  return (data ?? []).map((row) => ({
+    id: row.id,
+    title: row.title_pt,
+    summary: row.summary_pt,
+    source: row.source_name,
+    sourceUrl: row.source_url,
+    imageUrl: row.image_url,
+    publishedAt: row.published_at,
+    category: row.category,
+    minerals: row.minerals ?? [],
+    keywords: row.keywords ?? [],
+    relevance: row.relevance
+  }));
+}
+
+export const getPublishedNews = unstable_cache(queryPublishedNews, ["news-radar-v1"], { revalidate: 600, tags: ["news-radar"] });
 
 async function queryDashboard(): Promise<DashboardData> {
   const db = createSupabaseAdminClient();

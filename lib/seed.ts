@@ -1,4 +1,43 @@
-import type { DashboardData, ImageryPeriod, Occurrence, Post, Region } from "@/lib/types";
+import type { DashboardData, ImageryPeriod, NewsItem, Occurrence, Post, Region } from "@/lib/types";
+
+export const seedNews: NewsItem[] = [
+  {
+    id: "demo-critical-minerals",
+    title: "Minerais críticos ganham espaço nas estratégias de transição energética",
+    summary: "Novos investimentos aproximam pesquisa geológica, cadeias de suprimento e tecnologias de baixo carbono. Para o Brasil, o movimento amplia a importância de dados territoriais confiáveis e de projetos de exploração responsáveis.",
+    source: "Prospecta Radar",
+    sourceUrl: "https://www.mining.com/",
+    publishedAt: "2026-08-08T12:00:00.000Z",
+    category: "mercado",
+    minerals: ["Terras-raras", "Níquel", "Cobre"],
+    keywords: ["transição energética", "minerais críticos", "cadeia de suprimento"],
+    relevance: 94
+  },
+  {
+    id: "demo-ai-exploration",
+    title: "IA acelera a seleção de alvos na exploração mineral",
+    summary: "Modelos que combinam dados geológicos, geoquímicos e imagens de satélite estão reduzindo o universo de áreas prioritárias. A tecnologia apoia decisões de campo, mas continua dependente de validação técnica e dados de qualidade.",
+    source: "Prospecta Radar",
+    sourceUrl: "https://im-mining.com/",
+    publishedAt: "2026-08-06T12:00:00.000Z",
+    category: "tecnologia",
+    minerals: ["Cobre", "Ouro"],
+    keywords: ["inteligência artificial", "exploração mineral", "sensoriamento remoto"],
+    relevance: 91
+  },
+  {
+    id: "demo-water-mining",
+    title: "Gestão hídrica passa a orientar novos projetos de mineração",
+    summary: "Empresas e centros de pesquisa ampliam o uso de monitoramento remoto e recirculação para reduzir riscos hídricos. Indicadores ambientais comparáveis tornam-se parte central do planejamento e do licenciamento.",
+    source: "Prospecta Radar",
+    sourceUrl: "https://www.mining-technology.com/",
+    publishedAt: "2026-08-03T12:00:00.000Z",
+    category: "sustentabilidade",
+    minerals: ["Fosfato"],
+    keywords: ["água", "monitoramento ambiental", "licenciamento"],
+    relevance: 86
+  }
+];
 
 export const seedPosts: Post[] = [
   {

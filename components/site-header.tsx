@@ -10,6 +10,7 @@ export function SiteHeader() {
         <Link href="/#sobre">Sobre</Link>
         <Link href="/#minerais">Minerais</Link>
         <Link href="/blog">Publicações</Link>
+        <Link href="/radar">Radar</Link>
         <Link href="/dashboard">Dashboard</Link>
       </nav>
       <Link className="button button-small" href="/#contato">Fale conosco</Link>
